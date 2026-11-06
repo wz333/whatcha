@@ -1,0 +1,273 @@
+/* Whatcha's web pages: the app's sky, cream cards and navy ink. Colors match Theme.swift. */
+
+:root {
+  --sky: #2A5EC2;
+  --cream: #FAF8F3;
+  --cream-shade: #E8E4DB;
+  --cloud: #FAF8F3;
+  --cloud-shade: #E8E4DB;
+  --ink: #0D1733;
+  --muted: #6B7182;
+  --blue: #2A5EC2;
+  --sun: #F2B33D;
+  --on-sky: #FFFFFF;
+  --rule: rgba(13, 23, 51, 0.12);
+  --serif: ui-serif, "New York", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sky: #214A9C;
+    --cream: #1E2436;
+    --cream-shade: #2C3349;
+    --cloud: #3060B8;
+    --cloud-shade: #2955AA;
+    --ink: #ECEEF3;
+    --muted: #9AA0AE;
+    --blue: #5E8EEB;
+    --rule: rgba(236, 238, 243, 0.14);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--sky);
+  color: var(--ink);
+  font: 17px/1.6 var(--sans);
+  overflow-x: hidden;
+  position: relative;
+}
+
+a { color: var(--blue); text-underline-offset: 2px; }
+
+/* Header: the wordmark in heavy lowercase, and the two pages. */
+.top {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 22px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--on-sky);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+
+.brand img { width: 34px; height: 34px; border-radius: 8px; }
+
+.nav { display: flex; gap: 6px; }
+
+.nav a {
+  color: var(--on-sky);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.nav a:hover { background: rgba(255, 255, 255, 0.14); }
+.nav a[aria-current="page"] { background: #0B1A3E; color: #FAF8F3; }
+
+/* Cartoon clouds behind the card, as on Learn (CloudLayer), drawn by sky.js on one fixed
+   layer. They all move at --speed of the scroll (0.4; Learn's move at 0.7), so they drift by
+   slower than the card. */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  display: block;
+  height: auto;
+  transform: translate3d(0, calc(var(--scroll, 0px) * -1 * var(--speed, 0.4)), 0);
+  will-change: transform;
+}
+.cloud path { fill: url(#cloud-fill); }
+.cloud-top { stop-color: var(--cloud); }
+.cloud-bottom { stop-color: var(--cloud-shade); }
+
+/* Still clouds scroll with the page, as everything else does. */
+@media (prefers-reduced-motion: reduce) {
+  .cloud { --speed: 1 !important; }
+}
+
+/* The cream card, with the mascot peeking over its top edge. */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 16px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  position: relative;
+  background: var(--cream);
+  border-radius: 22px;
+  padding: 44px 40px 40px;
+  box-shadow: 0 6px 0 var(--cream-shade);
+}
+
+.peek {
+  position: absolute;
+  width: 168px;
+  height: auto;
+  top: -76px;
+  right: 40px;
+  pointer-events: none;
+}
+
+h1 {
+  font: 700 40px/1.12 var(--serif);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+  max-width: calc(100% - 170px);
+}
+
+.lede { color: var(--muted); margin: 0 0 28px; }
+
+h2 {
+  font: 700 24px/1.25 var(--serif);
+  margin: 40px 0 10px;
+}
+
+h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 26px 0 4px;
+}
+
+p, ul { margin: 0 0 14px; }
+ul { padding-left: 22px; }
+li { margin-bottom: 6px; }
+strong { font-weight: 700; }
+
+/* The contact block on Support. */
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  background: var(--sky);
+  color: #FFFFFF;
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin: 8px 0 8px;
+}
+.contact p { margin: 0; flex: 1 1 260px; }
+.contact strong { display: block; font: 700 20px/1.3 var(--serif); }
+
+/* The app's small solid slab button. */
+.slab {
+  display: inline-block;
+  background: #FFFFFF;
+  color: #0D1733;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 11px 18px;
+  border-radius: 6px;
+  box-shadow: 0 4px 0 #0B1A3E;
+  white-space: nowrap;
+}
+.slab:active { transform: translateY(3px); box-shadow: 0 1px 0 #0B1A3E; }
+
+/* Questions on Support open one at a time. */
+details {
+  border-top: 1px solid var(--rule);
+  padding: 2px 0;
+}
+details:last-of-type { border-bottom: 1px solid var(--rule); }
+summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  padding: 14px 32px 14px 0;
+  position: relative;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: "+";
+  position: absolute;
+  right: 4px;
+  top: 10px;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--blue);
+}
+details[open] summary::after { content: "–"; }
+details > :not(summary) { margin-top: 0; }
+details > :last-child { margin-bottom: 16px; }
+
+/* At a glance, on Privacy. */
+.glance {
+  background: rgba(242, 179, 61, 0.14);
+  border-radius: 16px;
+  padding: 16px 18px 8px 38px;
+  margin: 0 0 8px;
+}
+.glance li::marker { color: var(--sun); }
+.glance li { margin-bottom: 8px; }
+
+.small { font-size: 15px; color: var(--muted); }
+
+footer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 16px 40px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  position: relative;
+  z-index: 1;
+}
+footer a { color: #FFFFFF; }
+
+/* The home page: icon, name, the two links. */
+.home { text-align: center; }
+.home h1 { max-width: none; font-size: 44px; }
+.home .lede { font-size: 19px; }
+.home { padding-top: 64px; }
+.home .links { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 8px; }
+.home .slab { background: var(--sky); color: #FFFFFF; }
+.home .peek { width: 190px; top: -112px; right: 50%; transform: translateX(50%); }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .top { padding-top: 16px; }
+  .brand { font-size: 21px; }
+  .brand img { width: 30px; height: 30px; }
+  .nav a { padding: 6px 10px; font-size: 14px; }
+  main { padding-top: 96px; }
+  .card { padding: 34px 20px 28px; }
+  .peek { width: 128px; top: -58px; right: 20px; }
+  h1 { font-size: 31px; max-width: calc(100% - 120px); }
+  .home h1 { font-size: 34px; }
+  .home .peek { width: 150px; top: -88px; }
+  h2 { font-size: 21px; margin-top: 34px; }
+  .contact { padding: 18px; }
+}
